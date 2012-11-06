@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <style name="AppTheme" parent="android:Theme.Light" />
     
@@ -12,6 +12,27 @@
 		</item>
 		<item
 			name="android:textSize">8sp</item>
+	</style>
+	
+	<style name="week_view_time_cell">
+	    <item name="android:layout_width">0dip</item>
+	    <item name="android:layout_height">50dip</item>
+	    <item name="android:layout_weight">1</item>
+	    <item name="android:text"> </item>
+	    <item name="android:background">@color/white</item>
+	    <item name="android:layout_marginBottom">1px</item>
+	    <item name="android:layout_marginRight">1px</item>    
+	    <item name="android:textSize">8dip</item>   	    
+ 	</style>
+ 	
+	<style name="week_view_margin_cell">
+	    <item name="android:layout_width">0dip</item>
+	    <item name="android:layout_weight">0.4</item>
+	    <item name="android:textSize">8dip</item>
+	    <item name="android:layout_height">50dip</item>
+	    <item name="android:background">@color/white</item>
+	    <item name="android:layout_marginBottom">1px</item>
+	    <item name="android:layout_marginRight">1px</item>
 	</style>
 
 </resources>

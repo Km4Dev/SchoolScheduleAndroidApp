@@ -8,10 +8,10 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.text.format.DateFormat;
 import android.util.Log;
@@ -19,11 +19,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+//use Joda Time Library?
 
 public class MonthView extends Activity implements OnClickListener
 {
@@ -33,12 +36,18 @@ public class MonthView extends Activity implements OnClickListener
 	private ImageView prevMonth;
 	private ImageView nextMonth;
 	private GridView calendarView;
+	private GridView weekTabView; 
 	private GridCellAdapter adapter;
-	private Calendar _calendar;
+	private WeekTabAdapter tabAdapter; 
+	private Calendar calendar;
 	private int month, year;
 	private final DateFormat dateFormatter = new DateFormat();
 	private static final String dateTemplate = "MMMM yyyy";
 	private int actualCurrentMonth; 
+	private int actualCurrentYear; 
+	private GridView weekdayHeaderView; 
+	private int numWeeks; //number of weeks in this month -- number of week tabs needed
+	private String[] weeks; //array of each week's tab 
 
 	/** Called when the activity is first created. */
 	@Override
@@ -47,27 +56,38 @@ public class MonthView extends Activity implements OnClickListener
 			super.onCreate(savedInstanceState);
 			setContentView(R.layout.activity_month_view);
 
-			_calendar = Calendar.getInstance(Locale.getDefault());
-			month = _calendar.get(Calendar.MONTH) + 1;
-			actualCurrentMonth = _calendar.get(Calendar.MONTH);
-			year = _calendar.get(Calendar.YEAR);
-			Log.d(tag, "Calendar Instance:= " + "Month: " + month + " " + "Year: " + year);
+			calendar = Calendar.getInstance();
+			month = calendar.get(Calendar.MONTH) + 1;
+			actualCurrentMonth = calendar.get(Calendar.MONTH);
+			actualCurrentYear = calendar.get(Calendar.YEAR);
+			year = calendar.get(Calendar.YEAR);
+			Log.d(tag, "Calendar Instance:= Day: " + calendar.get(Calendar.DATE) +  " Month: " + month + " " + "Year: " + year);
 
 			prevMonth = (ImageView) this.findViewById(R.id.prevMonth);
 			prevMonth.setOnClickListener(this);
 
 			currentMonth = (Button) this.findViewById(R.id.currentMonth);
-			currentMonth.setText(dateFormatter.format(dateTemplate, _calendar.getTime()));
+			currentMonth.setText(dateFormatter.format(dateTemplate, calendar.getTime()));
 
 			nextMonth = (ImageView) this.findViewById(R.id.nextMonth);
 			nextMonth.setOnClickListener(this);
 
-			calendarView = (GridView) this.findViewById(R.id.calendar);
-
-			// Initialised
+			//Set up Weekday Header Bar
+			final String[] weekdays = new String[] {"Mon", "Tue", "Wed", "Thu", "Fri"}; 
+			weekdayHeaderView = (GridView) findViewById(R.id.calendarHeader);
+			ArrayAdapter<String> weekdayAdapter = new ArrayAdapter<String>(this, R.layout.calendar_header_cell, weekdays);
+			weekdayHeaderView.setAdapter(weekdayAdapter); 
+			
+			calendarView = (GridView) this.findViewById(R.id.monthCalendar);
 			adapter = new GridCellAdapter(getApplicationContext(), R.id.calendar_day_gridcell, month, year);
 			adapter.notifyDataSetChanged();
 			calendarView.setAdapter(adapter);
+			
+			weekTabView = (GridView) this.findViewById(R.id.weekTabs); 
+			tabAdapter = new WeekTabAdapter(getApplicationContext(), R.id.week_tab); 
+			tabAdapter.notifyDataSetChanged(); 
+			weekTabView.setAdapter(tabAdapter); 	
+
 		}
 
 	/**
@@ -78,8 +98,8 @@ public class MonthView extends Activity implements OnClickListener
 	private void setGridCellAdapterToDate(int month, int year)
 		{
 			adapter = new GridCellAdapter(getApplicationContext(), R.id.calendar_day_gridcell, month, year);
-			_calendar.set(year, month - 1, _calendar.get(Calendar.DAY_OF_MONTH));
-			currentMonth.setText(dateFormatter.format(dateTemplate, _calendar.getTime()));
+			calendar.set(year, month - 1, calendar.get(Calendar.DAY_OF_MONTH));
+			currentMonth.setText(dateFormatter.format(dateTemplate, calendar.getTime()));
 			adapter.notifyDataSetChanged();
 			calendarView.setAdapter(adapter);
 		}
@@ -125,6 +145,101 @@ public class MonthView extends Activity implements OnClickListener
 			super.onDestroy();
 		}
 
+	//Inner Class -- need to figure out how to generate as many GridView rows as there are numWeeks in a month, and
+	//place 1 weekTab per week 
+	public class WeekTabAdapter extends BaseAdapter implements OnClickListener{
+		private final Context _context;
+		private Button weekTab; 
+
+		//Constructor
+		public WeekTabAdapter(Context applicationContext, int weekTabView) {
+			this._context = applicationContext;
+			weeks = new String[numWeeks]; //initialise String array of week tabs 
+		}
+
+		@Override
+		public View getView(int position, View convertView, ViewGroup parent) {
+			View v = convertView;
+			
+			
+			if (v == null)
+				{
+					LayoutInflater inflater = (LayoutInflater) _context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+					v = inflater.inflate(R.layout.week_tab, parent, false);
+				}
+
+			// Get a reference to the Day gridcell
+			weekTab = (Button) v.findViewById(R.id.week_tab);
+			weekTab.setOnClickListener(this);
+			
+			// Set the Day GridCell
+			weekTab.setText("");
+			weekTab.setTag(position); 
+
+			return v;
+		}
+
+		@Override
+		public void onClick(View v) {
+			int weekNum = (Integer) v.getTag() + 1;
+			
+			Bundle b = new Bundle(); //create new bundle to pass info via intent into new activity
+		    b.putInt("year", year); //store year in bundle
+		    b.putInt("month", month); //store month in bundle
+
+		    Intent newActivity = new Intent("WeekView");  //create new intent to start WeekView Activity   
+		    
+			Log.d(tag, "Parsed Week Number: " + weekNum);
+			Log.d(tag, "This Year: " + year); 
+			Log.d(tag, "This Month: " + month); 
+			//if user clicks on week tab, start new activity of that week's calendar 
+				
+				switch(weekNum){
+				    case 1:    
+						    b.putInt("week", 0); //pass week number
+			        		break;
+			        		
+				    case 2: 
+						    b.putInt("week", 1); //pass week number
+			        		break;
+			        		
+				    case 3:   
+						    b.putInt("week", 2); //pass week number
+			        		break;
+			        		
+				    case 4:   
+						    b.putInt("week", 3); //pass week number
+			        		break;
+			        		
+				    case 5:   
+						    b.putInt("week", 4); //pass week number
+			        		break;
+			       
+				    case 6: 
+						    b.putInt("week", 5); //pass week number
+			        		break;
+
+				}//end switch
+				
+				//put bundle in Intent and start new activity with intent 
+			    newActivity.putExtras(b); //Put your id to your next Intent
+        		startActivity(newActivity); //start activity with intent 
+			
+		}//end onClick()
+		
+		public int getCount() {
+			return numWeeks;
+		}
+
+		public Object getItem(int position) {
+			return weeks[position];
+		}
+
+		public long getItemId(int position) {
+			return position;
+		}
+		
+	}
 
 	// Inner Class
 	public class GridCellAdapter extends BaseAdapter implements OnClickListener
@@ -212,8 +327,10 @@ public class MonthView extends Activity implements OnClickListener
 					int prevYear = 0;
 					int nextMonth = 0;
 					int nextYear = 0;
+					
 
 					int currentMonth = mm - 1;
+					int currentYear = yy; 
 					String currentMonthName = getMonthAsString(currentMonth);
 					daysInMonth = getNumberOfDaysOfMonth(currentMonth);
 
@@ -254,7 +371,15 @@ public class MonthView extends Activity implements OnClickListener
 					// Compute how much to leave before before the first day of the month.
 					// getDay() returns 0 for Sunday.
 					int currentWeekDay = cal.get(Calendar.DAY_OF_WEEK) - 1;
-					trailingSpaces = currentWeekDay;
+					//if start of month is a Sun or Mon, there are no trailing spaces. Else, there are
+					//as many trailing spaces as the currentWeekDay index - 1
+					if(currentWeekDay == 0 || currentWeekDay == 6){//if month starts on Sat or Sun, no trailing spaces and first weekday is not the 1st
+						trailingSpaces = 0; 
+					}
+					else{
+						trailingSpaces = currentWeekDay - 1; 
+					}
+				
 
 					Log.d(tag, "Week Day:" + currentWeekDay + " is " + getWeekDayAsString(currentWeekDay));
 					Log.d(tag, "No. Trailing space to Add: " + trailingSpaces);
@@ -265,18 +390,21 @@ public class MonthView extends Activity implements OnClickListener
 							++daysInMonth;
 						}
 
-					// Trailing Month days
+					// Trailing Days from Last Month -- grey out as inactive
 					for (int i = 0; i < trailingSpaces; i++)
 						{
 							Log.d(tag, "PREV MONTH:= " + prevMonth + " => " + getMonthAsString(prevMonth) + " " + String.valueOf((daysInPrevMonth - trailingSpaces + DAY_OFFSET) + i));
 							list.add(String.valueOf((daysInPrevMonth - trailingSpaces + DAY_OFFSET) + i) + "-GREY" + "-" + getMonthAsString(prevMonth) + "-" + prevYear);
 						}
-
-					// Current Month Days
+					
+					int thisWeekDay = currentWeekDay; 
+		
 					for (int i = 1; i <= daysInMonth; i++)
 						{
+						//if that day is not a Saturday or Sunday, then add to printed list 
+						if((((thisWeekDay) % 7) != 0) && ((((thisWeekDay) + 1) % 7) != 0)){
 							Log.d(currentMonthName, String.valueOf(i) + " " + getMonthAsString(currentMonth) + " " + yy);
-							if (i == currentDayOfMonth && currentMonth == actualCurrentMonth)
+							if (i == currentDayOfMonth && currentMonth == actualCurrentMonth && currentYear == actualCurrentYear)
 								{
 									list.add(String.valueOf(i) + "-ORANGE" + "-" + getMonthAsString(currentMonth) + "-" + yy);
 								}
@@ -285,13 +413,19 @@ public class MonthView extends Activity implements OnClickListener
 									list.add(String.valueOf(i) + "-BLACK" + "-" + getMonthAsString(currentMonth) + "-" + yy);
 								}
 						}
-
-					// Leading Month days
-					for (int i = 0; i < list.size() % 7; i++)
+						thisWeekDay++; 
+						}//end for
+						
+					// Leading Days from Next Month -- grey out as inactive
+					for (int i = 0; i < list.size() % 5; i++)
 						{
 							Log.d(tag, "NEXT MONTH:= " + getMonthAsString(nextMonth));
 							list.add(String.valueOf(i + 1) + "-GREY" + "-" + getMonthAsString(nextMonth) + "-" + nextYear);
 						}
+					
+					//Get the number of weeks displayed in a month
+					numWeeks = list.size()/5; 
+					Log.d(tag, "THIS MONTH HAS " + numWeeks + " WEEKS IN IT"); 
 				}
 
 			/**
@@ -398,5 +532,7 @@ public class MonthView extends Activity implements OnClickListener
 				}
 
 		}
+
+
 	
 }//end MonthView class

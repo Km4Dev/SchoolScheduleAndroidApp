@@ -4,6 +4,7 @@
 	<color name="black">#000000</color>
 	<color name="grey">#C0C0C0</color>
 	<color name="red">#FF0000</color>
+	<color name="orange">#FF9A40</color>
 	<color name="symptom_color_selected">#003366</color>
 	<color name="reaction_color_selected">#003366</color>
 	<color name="highlight_text_color">#FF6C00</color>
