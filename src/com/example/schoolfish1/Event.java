@@ -5,14 +5,28 @@ public class Event {
 	private int year; 
 	private int month; 
 	private int date;
-	private String weekday; 
-	private int startTime; //24 hour time format, without colon(:) separator
+	private String startTime; //24 hour time format, without colon(:) separator
 	private int duration; //in 15 minute increments
 	private String location; 
 	private String subject; //must limit to already added subjects in Subjects db (or 'none')
 	private String eventType; //must limit to predetermined event types like Lecture, Exam, etc. 
 	private String description; //description of event
 	
+	public Event(){
+		
+	}
+	
+	public Event(int year, int month, int date, String startTime, int duration, String location, String subject, String eventType, String description){
+		this.year = year; 
+		this.month = month; 
+		this.date = date; 
+		this.startTime = startTime;
+		this.duration = duration;
+		this.location = location;
+		this.subject = subject; 
+		this.eventType = eventType; 
+		this.description = description; 
+	}
 	public int getId() {
 		return id;
 	}
@@ -37,16 +51,10 @@ public class Event {
 	public void setDate(int date) {
 		this.date = date;
 	}
-	public String getWeekday() {
-		return weekday;
-	}
-	public void setWeekday(String weekday) {
-		this.weekday = weekday;
-	}
-	public int getStartTime() {
+	public String getStartTime() {
 		return startTime;
 	}
-	public void setStartTime(int startTime) {
+	public void setStartTime(String startTime) {
 		this.startTime = startTime;
 	}
 	public int getDuration() {

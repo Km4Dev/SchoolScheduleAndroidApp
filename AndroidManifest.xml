@@ -25,6 +25,43 @@
             android:label="@string/title_activity_week_view" >
             <intent-filter>
                 <action android:name="WeekView" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".DayView"
+            android:label="@string/title_activity_day_view" >
+            <intent-filter>
+                <action android:name="DayView" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".EventView"
+            android:label="@string/title_event_day_view" >
+            <intent-filter>
+                <action android:name="EventView" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".EditEventView"
+            android:label="@string/title_activity_edit_event_view" >
+                        <intent-filter>
+                <action android:name="EditEventView" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".AddEventView"
+            android:label="@string/title_activity_add_event_view" >
+            <intent-filter>
+                <action android:name="AddEventView" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>

@@ -21,16 +21,21 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 public class WeekView extends Activity implements OnClickListener {
@@ -40,15 +45,25 @@ public class WeekView extends Activity implements OnClickListener {
 	private ImageView prevWeek;
 	private ImageView nextWeek;
 	private GridView weekdayHeaderView; 
-	private GridView weekGridView;
-	private GridView weekMarginView; 
+	//private GridView weekGridView;
+	//private GridView weekMarginView; 
 	//private WeekGridAdapter weekGridAdapter;
 	//private WeekMarginAdapter weekMarginAdapter; 
-	private int thisWeek;
 	private int thisMonth;
 	private int thisYear; 
+	private int firstDayOfWeek; 
 	private final DateFormat dateFormatter = new DateFormat();
 	private static final String dateTemplate = "MMMM yyyy";
+	private GregorianCalendar myCal; 
+	private String[] weekdays; 
+	private MyDate[] weekdates = new MyDate[5]; 
+	private final String tag = "WeekView"; 
+	private WeekHeaderAdapter weekHeaderAdapter; 
+	
+	//database access
+	private List<Event> allEvents; 
+	private EventsDataSource dbHelper; 
+	private RelativeLayout rl; 
 	
 	  @Override
 	  public void onCreate(Bundle savedInstanceState) {
@@ -57,99 +72,54 @@ public class WeekView extends Activity implements OnClickListener {
         setContentView(R.layout.activity_week_view_scroll);
         
         Bundle b = getIntent().getExtras();
-        thisWeek = b.getInt("week");
+        firstDayOfWeek= b.getInt("firstDayOfWeek"); 
         thisMonth = b.getInt("month"); 
         thisYear = b.getInt("year"); 
         
+        Log.d(tag, "First day of week: " + firstDayOfWeek); 
+        Log.d(tag, "This month: " + thisMonth); 
+        Log.d(tag, "This year: " + thisYear); 
+        
+        if(firstDayOfWeek > 20){
+        	//then the first week starts with last month's calendar
+        	myCal = new GregorianCalendar(thisYear, thisMonth - 2, firstDayOfWeek); 
+        }else{
+        	myCal = new GregorianCalendar(thisYear, thisMonth - 1, firstDayOfWeek); 
+        }
+        
+        //Week navigation and display views 
         prevWeek = (ImageView) this.findViewById(R.id.prevWeek);
 		prevWeek.setOnClickListener(this);
 
 		currentWeek = (Button) this.findViewById(R.id.currentWeek);
-		currentWeek.setText(thisMonth + " " + thisYear);
+		currentWeek.setText(dateFormatter.format(dateTemplate, myCal.getTime()));
 
 		nextWeek = (ImageView) this.findViewById(R.id.nextWeek);
 		nextWeek.setOnClickListener(this);
-        
-	    datasource = new EventsDataSource(this);
-	    datasource.open();
-	    
-	    final String[] weekdays = new String[] {"Mon", "Tue", "Wed", "Thu", "Fri"}; 
+		
 		weekdayHeaderView = (GridView) findViewById(R.id.weekHeader);
-		ArrayAdapter<String> weekdayAdapter = new ArrayAdapter<String>(this, R.layout.calendar_header_cell, weekdays);
-		weekdayHeaderView.setAdapter(weekdayAdapter); 
+		weekHeaderAdapter = new WeekHeaderAdapter(getApplicationContext(), R.layout.week_header_cell); 
+		weekHeaderAdapter.notifyDataSetChanged(); 
+		weekdayHeaderView.setAdapter(weekHeaderAdapter);
 		
-		/*
-		weekGridView = (GridView) this.findViewById(R.id.weekCalendar);
-		weekGridAdapter = new WeekGridAdapter(getApplicationContext(), R.id.week_day_gridcell, thisWeek, thisMonth, thisYear);
-		weekGridAdapter.notifyDataSetChanged();
-		weekGridView.setAdapter(weekGridAdapter);
+		rl = (RelativeLayout) findViewById(R.id.week_relative_layout); 
 		
-		
-		weekMarginView = (GridView) this.findViewById(R.id.weekTimes); 
-		weekMarginAdapter = new WeekMarginAdapter(getApplicationContext(), R.id.week_margin); 
-		weekMarginAdapter.notifyDataSetChanged(); 
-		weekMarginView.setAdapter(weekMarginAdapter); 	
-	    */
-	    /*
-	     Game Plan:
-	     Create a 3-dimensional array for every month(access code/sql id = mmyy?)
-	     mm-yy = array of weeks
-	     week = array of days
-	     day = array of times from 7am-8pm
-	     */
+	    dbHelper = new EventsDataSource(this);
+	    dbHelper.open();
 	    
-	    /*
-	    List<Event> values = datasource.getAllEvents();
-
-	    // Use the SimpleCursorAdapter to show the
-	    // elements in a ListView
-	    ArrayAdapter<Event> adapter = new ArrayAdapter<Event>(this,
-	        android.R.layout.simple_list_item_1, values);
-	    setListAdapter(adapter);
-	  }
-
-	  // Will be called via the onClick attribute
-	  // of the buttons in main.xml
-	  public void onClick(View view) {
-	    @SuppressWarnings("unchecked")
-	    ArrayAdapter<Event> adapter = (ArrayAdapter<Event>) getListAdapter();
-	    Event event = null;
-	    switch (view.getId()) {
-	    case R.id.add:
-	      String[] comments = new String[] { "Cool", "Very nice", "Hate it" };
-	      int nextInt = new Random().nextInt(3);
-	      // Save the new comment to the database
-	      event = datasource.createEvent(comments[nextInt]);
-	      adapter.add(event);
-	      break;
-	    case R.id.delete:
-	      if (getListAdapter().getCount() > 0) {
-	        event = (Event) getListAdapter().getItem(0);
-	        datasource.deleteComment(event);
-	        adapter.remove(event);
-	      }
-	      break;
-	    }
-	    adapter.notifyDataSetChanged();
-	    */
-	  }
-	  
-	  
-		/**
-		 * 
-		 * @param month
-		 * @param year
-		 */
-	  /*
-		private void setGridCellAdapterToDate(int month, int year)
-			{
-				adapter = new GridCellAdapter(getApplicationContext(), R.id.calendar_day_gridcell, month, year);
-				calendar.set(year, month - 1, calendar.get(Calendar.DAY_OF_MONTH));
-				currentMonth.setText(dateFormatter.format(dateTemplate, calendar.getTime()));
-				adapter.notifyDataSetChanged();
-				calendarView.setAdapter(adapter);
+	    allEvents = dbHelper.getAllEvents(); 
+		for(Event thisEvent : allEvents){
+			for(MyDate dt : weekdates){
+				if(dt.getDate() == thisEvent.getDate() && dt.getMonthNum() == thisEvent.getMonth() && dt.getYear() == thisEvent.getYear() ){
+					addEventView(this, rl, thisEvent);
+				}
 			}
-	   */
+			Log.d("Events present in databases have ID: ", " " + thisEvent.getId()); 
+		}
+	    
+	  }
+	 
+
 	  
 	@Override
 	public void onClick(View v)
@@ -157,34 +127,90 @@ public class WeekView extends Activity implements OnClickListener {
 		
 			if (v == prevWeek)
 				{
-					thisWeek--; 
-				/*
-					if (thisWeek <= 0)
-						{
-							
+					myCal.add(myCal.DAY_OF_MONTH, -12);//skip to Sunday before
+			        setContentView(R.layout.activity_week_view_scroll);
+					
+			        for(int i = 0; i < 5; i++){
+			        	myCal.add(myCal.DAY_OF_MONTH, 1); 
+			        	weekdates[i] = new MyDate(myCal.get(myCal.DAY_OF_WEEK), myCal.get(myCal.DATE), myCal.get(myCal.MONTH), myCal.get(myCal.YEAR)); 
+			        }
+			        
+			        weekdays = new String[] {"Mon " + weekdates[0].getDate(), "Tue " + weekdates[1].getDate(), "Wed " + weekdates[2].getDate(), "Thu " + weekdates[3].getDate(), "Fri " + weekdates[4].getDate()};
+			        weekHeaderAdapter.notifyDataSetChanged(); 
+			        
+			      //redraw entire layout
+					ViewGroup vg = (ViewGroup) findViewById (R.id.activity_week_view_scroll);
+					vg.invalidate();
+
+			        //Week navigation and display views 
+			        prevWeek = (ImageView) this.findViewById(R.id.prevWeek);
+					prevWeek.setOnClickListener(this);
+
+					currentWeek = (Button) this.findViewById(R.id.currentWeek);
+					currentWeek.setText(dateFormatter.format(dateTemplate, myCal.getTime()));
+
+					nextWeek = (ImageView) this.findViewById(R.id.nextWeek);
+					nextWeek.setOnClickListener(this);
+					
+					rl = (RelativeLayout) findViewById(R.id.week_relative_layout); 
+					
+				    dbHelper = new EventsDataSource(this);
+				    dbHelper.open();
+				    
+				    allEvents = dbHelper.getAllEvents(); 
+					for(Event thisEvent : allEvents){
+						for(MyDate dt : weekdates){
+							if(dt.getDate() == thisEvent.getDate() && dt.getMonthNum() == thisEvent.getMonth() && dt.getYear() == thisEvent.getYear() ){
+								addEventView(this, rl, thisEvent);
+							}
 						}
-					else
-						{
-							
-						}
-					setWeekGridAdapterToDate(month, year);
-				*/
+						Log.d("Events present in databases have ID: ", " " + thisEvent.getId()); 
+					}
+					
+
 				}
 			if (v == nextWeek)
 				{
-					thisWeek++; 
-				/*
-					if (week > 11)
-						{
+					myCal.add(myCal.DAY_OF_MONTH, 2);//skip from Friday to Sunday
+					
+					setContentView(R.layout.activity_week_view_scroll);
+					 
+			        for(int i = 0; i < 5; i++){
+			        	myCal.add(myCal.DAY_OF_MONTH, 1); 
+			        	weekdates[i] = new MyDate(myCal.get(myCal.DAY_OF_WEEK), myCal.get(myCal.DATE), myCal.get(myCal.MONTH), myCal.get(myCal.YEAR)); 
+			        }
+					
+			        weekdays = new String[] {"Mon " + weekdates[0].getDate(), "Tue " + weekdates[1].getDate(), "Wed " + weekdates[2].getDate(), "Thu " + weekdates[3].getDate(), "Fri " + weekdates[4].getDate()};
+			        weekHeaderAdapter.notifyDataSetChanged(); 
 
-						}
-					else
-						{
+					ViewGroup vg = (ViewGroup) findViewById (R.id.activity_week_view_scroll);
+					vg.invalidate();
+					
+			        //Week navigation and display views 
+			        prevWeek = (ImageView) this.findViewById(R.id.prevWeek);
+					prevWeek.setOnClickListener(this);
 
+					currentWeek = (Button) this.findViewById(R.id.currentWeek);
+					currentWeek.setText(dateFormatter.format(dateTemplate, myCal.getTime()));
+
+					nextWeek = (ImageView) this.findViewById(R.id.nextWeek);
+					nextWeek.setOnClickListener(this);
+					
+					rl = (RelativeLayout) findViewById(R.id.week_relative_layout); 
+					
+				    dbHelper = new EventsDataSource(this);
+				    dbHelper.open();
+				    
+				    allEvents = dbHelper.getAllEvents(); 
+					for(Event thisEvent : allEvents){
+						for(MyDate dt : weekdates){
+							if(dt.getDate() == thisEvent.getDate() && dt.getMonthNum() == thisEvent.getMonth() && dt.getYear() == thisEvent.getYear() ){
+								addEventView(this, rl, thisEvent);
+							}
 						}
-					Log.d(tag, "Setting Next Month in GridCellAdapter: " + "Month: " + month + " Year: " + year);
-					setGridCellAdapterToDate(month, year);
-					*/
+						Log.d("Events present in databases have ID: ", " " + thisEvent.getId()); 
+					}
+
 				}
 
 		}
@@ -192,13 +218,13 @@ public class WeekView extends Activity implements OnClickListener {
 
 	  @Override
 	  protected void onResume() {
-	    datasource.open();
+	    dbHelper.open();
 	    super.onResume();
 	  }
 
 	  @Override
 	  protected void onPause() {
-	    datasource.close();
+	    dbHelper.close();
 	    super.onPause();
 	  }
 
@@ -207,183 +233,181 @@ public class WeekView extends Activity implements OnClickListener {
         getMenuInflater().inflate(R.menu.activity_week_view, menu);
         return true;
     }
-/*    
-	public class WeekMarginAdapter extends BaseAdapter implements OnClickListener{
+
+    //Inner class
+	public class WeekHeaderAdapter extends BaseAdapter implements OnClickListener{
 		private final Context _context;
-		private String[] marginTimes = new String[13];  
-		private Button weekMargin; 
+		private Button weekHeader; 
 
 		//Constructor
-		public WeekMarginAdapter(Context applicationContext, int weekTabView) {
+		public WeekHeaderAdapter(Context applicationContext, int weekTabView) {
 			this._context = applicationContext;
-			//initialise String array of margin times
-			for(int i = 0; i < marginTimes.length; i++){
-				String time = i + 7 + ":00"; 
-				marginTimes[i] = time;  
-			}
+			
+			weekdates[0] = new MyDate(myCal.get(myCal.DAY_OF_WEEK), myCal.get(myCal.DATE), myCal.get(myCal.MONTH), myCal.get(myCal.YEAR)); 
+	        for(int i = 1; i < 5; i++){
+	        	myCal.add(myCal.DAY_OF_MONTH, 1); 
+	        	weekdates[i] = new MyDate(myCal.get(myCal.DAY_OF_WEEK), myCal.get(myCal.DATE), myCal.get(myCal.MONTH), myCal.get(myCal.YEAR));
+	        }
+		    
+		    //Weekdays Header Bar 
+		    weekdays = new String[] {"Mon " + weekdates[0].getDate(), "Tue " + weekdates[1].getDate(), "Wed " + weekdates[2].getDate(), "Thu " + weekdates[3].getDate(), "Fri " + weekdates[4].getDate()}; 
+			
 		}
 
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
-			View v = convertView;	
-			
+			View v = convertView;
+
 			if (v == null)
 				{
 					LayoutInflater inflater = (LayoutInflater) _context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-					v = inflater.inflate(R.layout.week_margin, parent, false);
+					v = inflater.inflate(R.layout.week_header_cell, parent, false);
 				}
 
 			
-			weekMargin = (Button)v.findViewById(R.id.week_margin);
-			weekMargin.setText(marginTimes[position]);
-			weekMargin.setTag(position); 
+			// Get a reference to the Day gridcell
+			weekHeader = (Button) v.findViewById(R.id.week_header_cell);
+			weekHeader.setOnClickListener(this);
+			
+			// Set the Day GridCell
+			weekHeader.setText(weekdays[position]);
+			weekHeader.setTag(position); 
 
 			return v;
 		}
 
 		@Override
 		public void onClick(View v) {
-			/*int weekNum = (Integer) v.getTag() + 1;
+			int position = (Integer) v.getTag();
 			
-			Bundle b = new Bundle(); //create new bundle to pass info via intent into new activity
-		    b.putInt("year", year); //store year in bundle
-		    b.putInt("month", month); //store month in bundle
+			Log.d(tag, "Gridview Clicked");
+        	Bundle b = new Bundle(); //create new bundle to pass info via intent into new activity
+        	b.putInt("date", weekdates[position].getDate()); 
+        	b.putInt("weekday", weekdates[position].getWeekdayIndex()); 
+        	b.putInt("month", weekdates[position].getMonthNum()); 
+        	b.putInt("year", weekdates[position].getYear());
+			Intent i = new Intent("DayView");
+			i.putExtras(b); 
+            startActivity(i); 
 
-		    Intent newActivity = new Intent("WeekView");  //create new intent to start WeekView Activity   
-		    
-			Log.d(tag, "Parsed Week Number: " + weekNum);
-			Log.d(tag, "This Year: " + year); 
-			Log.d(tag, "This Month: " + month); 
-			//if user clicks on week tab, start new activity of that week's calendar 
-				
-				switch(weekNum){
-				    case 1:    
-						    b.putInt("week", 0); //pass week number
-			        		break;
-			        		
-				    case 2: 
-						    b.putInt("week", 1); //pass week number
-			        		break;
-			        		
-				    case 3:   
-						    b.putInt("week", 2); //pass week number
-			        		break;
-			        		
-				    case 4:   
-						    b.putInt("week", 3); //pass week number
-			        		break;
-			        		
-				    case 5:   
-						    b.putInt("week", 4); //pass week number
-			        		break;
-			       
-				    case 6: 
-						    b.putInt("week", 5); //pass week number
-			        		break;
-
-				}//end switch
-				
-				//put bundle in Intent and start new activity with intent 
-			    newActivity.putExtras(b); //Put your id to your next Intent
-        		startActivity(newActivity); //start activity with intent 
-        		*/
-			
-	//	}
-		//end onClick()
-/*		
+		}//end onClick()
+		
 		public int getCount() {
-			return marginTimes.length;
+			return weekdates.length;
 		}
 
 		public Object getItem(int position) {
-			return marginTimes[position];
+			return weekdates[position];
 		}
 
 		public long getItemId(int position) {
 			return position;
 		}
 		
-	}*/
-	//end WeekGridAdapter inner class
+	}//end custom adapter for weekHeaderView
 	
-	
-	// Inner Class
-/*	public class WeekGridAdapter extends BaseAdapter //implements OnClickListener
-		{
-			private final Context _context;
+	public void addEventView(Context ctx, RelativeLayout rl, Event event){
+		int width = 58;  
+				
+		TextView tv = new TextView(ctx);
+		tv.setBackgroundResource(R.color.orange);
+		tv.setText(event.getSubject() + "\n" + event.getEventType() + "\n" + event.getLocation()); 
+		tv.setHeight((int) (event.getDuration() * getResources().getDisplayMetrics().density)); 
+		tv.setWidth((int) (width * getResources().getDisplayMetrics().density)); 
+		tv.setTag(event); 
+		tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12); 
+		
+		int topMargin = 0; 
+		String[] arr = event.getStartTime().split(":"); 
+		int startHour = Integer.parseInt(arr[0]); 
+		int startMinutes = Integer.parseInt(arr[1]); 
+		switch(startHour){
+			case 7 : 	topMargin += 1; 
+						break; 
+			case 8: 	topMargin += 61; 
+						break; 
+			case 9: 	topMargin += 122; 
+						break;
+			case 10: 	topMargin += 182; 
+						break;
+			case 11: 	topMargin += 243; 
+						break; 
+			case 12: 	topMargin += 304; 
+						break; 
+			case 13: 	topMargin += 364; 
+						break; 
+			case 14: 	topMargin += 425; 
+						break;
+			case 15: 	topMargin += 486; 
+						break; 
+			case 16: 	topMargin += 547; 
+						break; 
+			case 17: 	topMargin += 607; 
+						break; 
+			case 18: 	topMargin += 668;
+						break; 
+			case 19: 	topMargin += 729; 
+						break; 
+		}
+		
+		topMargin += startMinutes; 
+		
+		int leftMargin = 24; 
+		int dt = event.getDate(); 
+		int mth = event.getMonth(); 
+		int yr = event.getYear(); 
+		GregorianCalendar cal = new GregorianCalendar(yr, mth, 17); //create new calendar with event's date to get day of week 
+		int weekdayIndex = cal.get(cal.DAY_OF_WEEK); 
+		/*Log.d("Week", "Date: " + cal.get(cal.DATE)); 
+		Log.d("Week", "Month: " + cal.get(cal.MONTH)); 
+		Log.d("Week", "Year: " + cal.get(cal.YEAR)); 
+		*/
+		Log.d("Week", "Day of week: " + cal.get(cal.DAY_OF_WEEK)); 
 
-			private final List<String> list;
-			private Button gridcell;
-			
-			// Days in Current Month
-			public WeekGridAdapter(Context context, int textViewResourceId, int week, int month, int year)
-				{
-					super();
-					this._context = context;
-					this.list = new ArrayList<String>(65);
-					for(int i = 0; i < 65; i++){
-						list.add(" "); 
-					}
+		switch(weekdayIndex){
+			//case 1 : 	leftMargin += 1; //Sun
+						//break; 
+			case 2: 	leftMargin += 0; //Mon
+						break; 
+			case 3: 	leftMargin += 61; //Tue
+						break;
+			case 4: 	leftMargin += 122; //Wed
+						break;
+			case 5: 	leftMargin += 182; //Thu
+						break; 
+			case 6: 	leftMargin += 243; //Fri
+						break; 
+			//case 7: 	leftMargin += 304; //Sat
+						//break;
+			default: 	break; 
+		}
+		
+		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+		params.leftMargin = (int) (leftMargin * getResources().getDisplayMetrics().density);
+		params.topMargin = (int) (topMargin * getResources().getDisplayMetrics().density);
+		tv.setOnClickListener(new OnClickListener() {
+			   public void onClick(View v) {
+				   Log.d("View clicked", ((Event)v.getTag()).getDescription()); 
+				   Event event = (Event)v.getTag(); 
+				   Bundle b = new Bundle(); //create new bundle to pass info via intent into new activity
+				   b.putInt("year", event.getYear()); //store year in bundle
+				   b.putInt("month", event.getMonth()); //store month in bundle
+				   b.putInt("date", event.getDate());
+				   b.putInt("duration", event.getDuration()); 
+				   b.putString("startTime", event.getStartTime());
+				   b.putString("location", event.getLocation()); 
+				   b.putString("subject", event.getSubject()); 
+				   b.putString("eventType", event.getEventType()); 
+				   b.putString("description", event.getDescription()); 
+				   b.putInt("id", event.getId()); 
 
-					//printWeek(week, month, year);
-
-				}
-
-			public String getItem(int position)
-				{
-					return list.get(position);
-				}
-
-			@Override
-			public int getCount()
-				{
-					return list.size();
-				}
-*/
-			/**
-			 * Prints Month
-			 * 
-			 * @param mm
-			 * @param yy
-			 */
-			/*private void printWeek(int w, int mm, int yy)
-				{
-					//add events/weeks to list? 
-
-				}
-			*/
-/*
-			@Override
-			public long getItemId(int position)
-				{
-					return position;
-				}
-
-			@Override
-			public View getView(int position, View convertView, ViewGroup parent)
-				{
-					View row = convertView;
-					if (row == null)
-						{
-							LayoutInflater inflater = (LayoutInflater) _context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-							row = inflater.inflate(R.layout.week_day_gridcell, parent, false);
-						}
-
-					// Get a reference to the Day gridcell
-					gridcell = (Button) row.findViewById(R.id.week_day_gridcell);
-					//gridcell.setOnClickListener(this);
-
-					// Set the Day GridCell
-					gridcell.setText(" ");
-					/*gridcell.setTag(theday + "-" + themonth + "-" + theyear);
-					Log.d(tag, "Setting GridCell " + theday + "-" + themonth + "-" + theyear);
-					 */
-					
-					//return row;
-				//}
-
-		//}//end WeekGridAdapter class 
-	
-	
+				   Intent newActivity = new Intent("EventView");
+				   newActivity.putExtras(b); //Put your id to your next Intent
+	        	   startActivityForResult(newActivity, 0);
+			   }
+		});//end OnClickListener
+		
+		rl.addView(tv, params);
+	}
 
 }

@@ -4,7 +4,8 @@
 	android:orientation="vertical"
 	android:layout_width="fill_parent"
 	android:layout_height="fill_parent"
-	android:background="@color/black">
+	android:background="@color/black"
+	android:id="@+id/activity_week_view_scroll">
 
 	<LinearLayout
 		xmlns:android="http://schemas.android.com/apk/res/android"
@@ -68,366 +69,372 @@
 	<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
 	    android:layout_width="fill_parent"
 	    android:layout_height="fill_parent"
+	    android:id="@+id/week_scroll_view"
 	    >
-				    
-		<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
-		    android:id="@+id/tableLayout1"
+		
+	    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		    android:id="@+id/week_relative_layout"
 		    android:layout_width="fill_parent"
 		    android:layout_height="wrap_content" >
-		 
-		    <!-- 6 columns -->
-		    <TableRow
-		        android:id="@+id/tableRow1"
-		        android:layout_width="fill_parent"
-		        android:layout_height="50dip"
-		        android:padding="0dip" 
-		        android:background="@color/black">
-		        <TextView
-		            android:id="@+id/row1col1"
-		            android:text="7am"
-		            style="@style/week_view_margin_cell" />
-		        <TextView
-		            android:id="@+id/row1col2"
-		            style="@style/week_view_time_cell"
-		            />
-				<TextView
-		            android:id="@+id/row1col3"
-					style="@style/week_view_time_cell"/>
-				<TextView
-		            android:id="@+id/row1col4"
-		            style="@style/week_view_time_cell"/>
-				<TextView
-		            android:id="@+id/row1col5"
-		            style="@style/week_view_time_cell"/>
-				<TextView
-		            android:id="@+id/row1col6"
-		            style="@style/week_view_time_cell"/>		     
-		    </TableRow>
-
-		    <TableRow
-		        android:id="@+id/tableRow2"
-		        android:layout_width="fill_parent"
-		        android:layout_height="50dip"
-		        android:padding="0dip" 
-		        android:background="@color/black"
-		        >
-		        <TextView
-		            android:id="@+id/row2col1"
-		            android:text="8am" 
-		            style="@style/week_view_margin_cell"/>
-		        <TextView
-		            android:id="@+id/row2col2"
-		            style="@style/week_view_time_cell" />
-		        <TextView
-		            android:id="@+id/row2col3"
-		            style="@style/week_view_time_cell" />
-		        <TextView
-		            android:id="@+id/row2col4"
-		            style="@style/week_view_time_cell" />
-		        <TextView
-		            android:id="@+id/row2col5"
-		            style="@style/week_view_time_cell" />
-		        <TextView
-		            android:id="@+id/row2col6"
-		            style="@style/week_view_time_cell"/>	
-		    </TableRow>
-		 
-		    <TableRow
-		        android:id="@+id/tableRow3"
-		        android:layout_width="fill_parent"
-		        android:layout_height="50dip"
-		        android:padding="0dip" 
-		        android:background="@color/black" >
-		        <TextView
-		            android:id="@+id/row3col1"
-		            android:text="9am"
-		            style="@style/week_view_margin_cell"/>
-		        <TextView
-		            android:id="@+id/row3col2"
-		            style="@style/week_view_time_cell" />
-		        <TextView
-		            android:id="@+id/row3col3"
-		            style="@style/week_view_time_cell" />
-		        <TextView
-		            android:id="@+id/row3col4"
-		            style="@style/week_view_time_cell" />
-		        <TextView
-		            android:id="@+id/row3col5"
-		            style="@style/week_view_time_cell" />
-		        <TextView
-		            android:id="@+id/row3col6"
-		            style="@style/week_view_time_cell"/>	
-		    </TableRow>
-
-		    <TableRow
-		        android:id="@+id/tableRow4"
-		        android:layout_width="fill_parent"
-		        android:layout_height="50dip"
-		        android:padding="0dip" 
-		        android:background="@color/black" >
-		        <TextView
-		            android:id="@+id/row4col1"
-		            android:text="10am"
-		            style="@style/week_view_margin_cell"  />
-		        <TextView
-		            android:id="@+id/row4col2"
-		            style="@style/week_view_time_cell" />
-		        <TextView
-		            android:id="@+id/row4col3"
-		            style="@style/week_view_time_cell" />
-		        <TextView
-		            android:id="@+id/row4col4"
-		            style="@style/week_view_time_cell" />
-		        <TextView
-		            android:id="@+id/row4col5"
-		            style="@style/week_view_time_cell" />
-		        <TextView
-		            android:id="@+id/row4col6"
-		            style="@style/week_view_time_cell"/>	
-		    </TableRow>
-		 
-		    <TableRow
-		        android:id="@+id/tableRow5"
-		        android:layout_width="fill_parent"
-		        android:layout_height="50dip"
-		        android:padding="0dip" 
-		        android:background="@color/black">
-		        <TextView
-		            android:id="@+id/row5col1"
-		            android:text="11am"
-		            style="@style/week_view_margin_cell"  />
-		        <TextView
-		            android:id="@+id/row5col2"
-		            style="@style/week_view_time_cell" />
-		        <TextView
-		            android:id="@+id/row5col3"
-		            style="@style/week_view_time_cell" />
-		        <TextView
-		            android:id="@+id/row5col4"
-		            style="@style/week_view_time_cell" />
-		        <TextView
-		            android:id="@+id/row5col5"
-		            style="@style/week_view_time_cell" />
-		        <TextView
-		            android:id="@+id/row5col6"
-		            style="@style/week_view_time_cell"/>	
-		    </TableRow>
-		    
-		    <TableRow
-		        android:id="@+id/tableRow6"
-		        android:layout_width="fill_parent"
-		        android:layout_height="50dip"
-		        android:padding="0dip" 
-		        android:background="@color/black" >
-		        <TextView
-		            android:id="@+id/row6col1"
-		            android:text="12pm"
-		            style="@style/week_view_margin_cell" />
-		        <TextView
-		            android:id="@+id/row6col2"
-		            style="@style/week_view_time_cell" />
-		        <TextView
-		            android:id="@+id/row6col3"
-		            style="@style/week_view_time_cell" />
-		        <TextView
-		            android:id="@+id/row6col4"
-		           style="@style/week_view_time_cell" />
-		        <TextView
-		            android:id="@+id/row6col5"
-		            style="@style/week_view_time_cell" />
-		        <TextView
-		            android:id="@+id/row6col6"
-		            style="@style/week_view_time_cell"/>	
-		    </TableRow>
-		    
-		    <TableRow
-		        android:id="@+id/tableRow7"
-		        android:layout_width="fill_parent"
-		        android:layout_height="50dip"
-		        android:padding="0dip" 
-		        android:background="@color/black">
-		        <TextView
-		            android:id="@+id/row7col1"
-		            android:text="1pm"
-		            style="@style/week_view_margin_cell"  />
-		        <TextView
-		            android:id="@+id/row7col2"
-		            style="@style/week_view_time_cell" />
-		        <TextView
-		            android:id="@+id/row7col3"
-		            style="@style/week_view_time_cell" />
-		        <TextView
-		            android:id="@+id/row7col4"
-		            style="@style/week_view_time_cell" />
-		        <TextView
-		            android:id="@+id/row7col5"
-		            style="@style/week_view_time_cell" />
-		        <TextView
-		            android:id="@+id/row7col6"
-		            style="@style/week_view_time_cell"/>	
-		    </TableRow>
-		    
-		    <TableRow
-		        android:id="@+id/tableRow8"
-		        android:layout_width="fill_parent"
-		        android:layout_height="50dip"
-		        android:padding="0dip" 
-		        android:background="@color/black">
-		        <TextView
-		            android:id="@+id/row8col1"
-		            android:text="2pm"
-		            style="@style/week_view_margin_cell" />
-		        <TextView
-		            android:id="@+id/row8col2"
-		            style="@style/week_view_time_cell" />
-		        <TextView
-		            android:id="@+id/row8col3"
-		            style="@style/week_view_time_cell" />
-		        <TextView
-		            android:id="@+id/row8col4"
-		            style="@style/week_view_time_cell" />
-		        <TextView
-		            android:id="@+id/row8col5"
-		            style="@style/week_view_time_cell" />
-		        <TextView
-		            android:id="@+id/row8col6"
-		            style="@style/week_view_time_cell"/>	
-		    </TableRow>
-		    
-		    <TableRow
-		        android:id="@+id/tableRow9"
-		        android:layout_width="fill_parent"
-		        android:layout_height="50dip"
-		        android:padding="0dip" 
-		        android:background="@color/black" >
-		        <TextView
-		            android:id="@+id/row9col1"
-		            android:text="3pm"
-		            style="@style/week_view_margin_cell" />
-		        <TextView
-		            android:id="@+id/row9col2"
-		            style="@style/week_view_time_cell" />
-		        <TextView
-		            android:id="@+id/row9col3"
-		            style="@style/week_view_time_cell" />
-		        <TextView
-		            android:id="@+id/row9col4"
-		            style="@style/week_view_time_cell" />
-		        <TextView
-		            android:id="@+id/row9col5"
-		            style="@style/week_view_time_cell" />
-		        <TextView
-		            android:id="@+id/row9col6"
-		            style="@style/week_view_time_cell"/>	
-		    </TableRow>
-		    
-		    <TableRow
-		        android:id="@+id/tableRow10"
-		        android:layout_width="fill_parent"
-		        android:layout_height="50dip"
-		        android:padding="0dip" 
-		        android:background="@color/black" >
-		        <TextView
-		            android:id="@+id/row10col1"
-		            android:text="4pm"
-		            style="@style/week_view_margin_cell" />
-		        <TextView
-		            android:id="@+id/row10col2"
-		            style="@style/week_view_time_cell" />
-		        <TextView
-		            android:id="@+id/row10col3"
-		            style="@style/week_view_time_cell" />
-		        <TextView
-		            android:id="@+id/row10col4"
-		            style="@style/week_view_time_cell" />
-		        <TextView
-		            android:id="@+id/row10col5"
-		            style="@style/week_view_time_cell" />
-		        <TextView
-		            android:id="@+id/row10col6"
-		            style="@style/week_view_time_cell"/>	
-		    </TableRow>
-		    <TableRow
-		        android:id="@+id/tableRow11"
-		        android:layout_width="fill_parent"
-		        android:layout_height="50dip"
-		        android:padding="0dip" 
-		        android:background="@color/black" >
-		        <TextView
-		            android:id="@+id/row11col1"
-		            android:text="5pm"
-		            style="@style/week_view_margin_cell" />
-		        <TextView
-		            android:id="@+id/row11col2"
-		            style="@style/week_view_time_cell" />
-		        <TextView
-		            android:id="@+id/row11col3"
-		            style="@style/week_view_time_cell" />
-		        <TextView
-		            android:id="@+id/row11col4"
-		            style="@style/week_view_time_cell" />
-		        <TextView
-		            android:id="@+id/row11col5"
-		            style="@style/week_view_time_cell" />
-		        <TextView
-		            android:id="@+id/row11col6"
-		            style="@style/week_view_time_cell"/>	
-		    </TableRow>
-		    <TableRow
-		        android:id="@+id/tableRow12"
-		        android:layout_width="fill_parent"
-		        android:layout_height="50dip"
-		        android:padding="0dip" 
-		        android:background="@color/black">
-		        <TextView
-		            android:id="@+id/row12col1"
-		            android:text="6pm"
-		            style="@style/week_view_margin_cell" />
-		        <TextView
-		            android:id="@+id/row12col2"
-		            style="@style/week_view_time_cell"/>
-		        <TextView
-		            android:id="@+id/row12col3"
-		            style="@style/week_view_time_cell" />
-		        <TextView
-		            android:id="@+id/row12col4"
-		            style="@style/week_view_time_cell" />
-		        <TextView
-		            android:id="@+id/row12col5"
-		            style="@style/week_view_time_cell" />
-		        <TextView
-		            android:id="@+id/row12col6"
-		            style="@style/week_view_time_cell"/>	
-		    </TableRow>
-		    <TableRow
-		        android:id="@+id/tableRow13"
-		        android:layout_width="fill_parent"
-		        android:layout_height="50dip"
-		        android:padding="0dip" 
-		        android:background="@color/black" >
-		        <TextView
-		            android:id="@+id/row13col1"
-		            android:text="7pm"
-		            style="@style/week_view_margin_cell" />
-		        <TextView
-		            android:id="@+id/row13col2"
-		            style="@style/week_view_time_cell" />
-		        <TextView
-		            android:id="@+id/row13col3"
-		            style="@style/week_view_time_cell" />
-		        <TextView
-		            android:id="@+id/row13col4"
-		            style="@style/week_view_time_cell"/>
-		        <TextView
-		            android:id="@+id/row13col5"
-		            style="@style/week_view_time_cell" />
-		        <TextView
-		            android:id="@+id/row13col6"
-		            style="@style/week_view_time_cell"/>	
-		    </TableRow>
-		</TableLayout>
-			
+				    
+			<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+			    android:id="@+id/weekTableLayout"
+			    android:layout_width="fill_parent"
+			    android:layout_height="wrap_content" >
+			 
+			    <!-- 6 columns -->
+			    <TableRow
+			        android:id="@+id/tableRow1"
+			        android:layout_width="fill_parent"
+			        android:layout_height="50dip"
+			        android:padding="0dip" 
+			        android:background="@color/black">
+			        <TextView
+			            android:id="@+id/row1col1"
+			            android:text="7am"
+			            style="@style/week_view_margin_cell" />
+			        <TextView
+			            android:id="@+id/row1col2"
+			            style="@style/week_view_time_cell"
+			            />
+					<TextView
+			            android:id="@+id/row1col3"
+						style="@style/week_view_time_cell"/>
+					<TextView
+			            android:id="@+id/row1col4"
+			            style="@style/week_view_time_cell"/>
+					<TextView
+			            android:id="@+id/row1col5"
+			            style="@style/week_view_time_cell"/>
+					<TextView
+			            android:id="@+id/row1col6"
+			            style="@style/week_view_time_cell"/>		     
+			    </TableRow>
 	
+			    <TableRow
+			        android:id="@+id/tableRow2"
+			        android:layout_width="fill_parent"
+			        android:layout_height="50dip"
+			        android:padding="0dip" 
+			        android:background="@color/black"
+			        >
+			        <TextView
+			            android:id="@+id/row2col1"
+			            android:text="8am" 
+			            style="@style/week_view_margin_cell"/>
+			        <TextView
+			            android:id="@+id/row2col2"
+			            style="@style/week_view_time_cell" />
+			        <TextView
+			            android:id="@+id/row2col3"
+			            style="@style/week_view_time_cell" />
+			        <TextView
+			            android:id="@+id/row2col4"
+			            style="@style/week_view_time_cell" />
+			        <TextView
+			            android:id="@+id/row2col5"
+			            style="@style/week_view_time_cell" />
+			        <TextView
+			            android:id="@+id/row2col6"
+			            style="@style/week_view_time_cell"/>	
+			    </TableRow>
+			 
+			    <TableRow
+			        android:id="@+id/tableRow3"
+			        android:layout_width="fill_parent"
+			        android:layout_height="50dip"
+			        android:padding="0dip" 
+			        android:background="@color/black" >
+			        <TextView
+			            android:id="@+id/row3col1"
+			            android:text="9am"
+			            style="@style/week_view_margin_cell"/>
+			        <TextView
+			            android:id="@+id/row3col2"
+			            style="@style/week_view_time_cell" />
+			        <TextView
+			            android:id="@+id/row3col3"
+			            style="@style/week_view_time_cell" />
+			        <TextView
+			            android:id="@+id/row3col4"
+			            style="@style/week_view_time_cell" />
+			        <TextView
+			            android:id="@+id/row3col5"
+			            style="@style/week_view_time_cell" />
+			        <TextView
+			            android:id="@+id/row3col6"
+			            style="@style/week_view_time_cell"/>	
+			    </TableRow>
+	
+			    <TableRow
+			        android:id="@+id/tableRow4"
+			        android:layout_width="fill_parent"
+			        android:layout_height="50dip"
+			        android:padding="0dip" 
+			        android:background="@color/black" >
+			        <TextView
+			            android:id="@+id/row4col1"
+			            android:text="10am"
+			            style="@style/week_view_margin_cell"  />
+			        <TextView
+			            android:id="@+id/row4col2"
+			            style="@style/week_view_time_cell" />
+			        <TextView
+			            android:id="@+id/row4col3"
+			            style="@style/week_view_time_cell" />
+			        <TextView
+			            android:id="@+id/row4col4"
+			            style="@style/week_view_time_cell" />
+			        <TextView
+			            android:id="@+id/row4col5"
+			            style="@style/week_view_time_cell" />
+			        <TextView
+			            android:id="@+id/row4col6"
+			            style="@style/week_view_time_cell"/>	
+			    </TableRow>
+			 
+			    <TableRow
+			        android:id="@+id/tableRow5"
+			        android:layout_width="fill_parent"
+			        android:layout_height="50dip"
+			        android:padding="0dip" 
+			        android:background="@color/black">
+			        <TextView
+			            android:id="@+id/row5col1"
+			            android:text="11am"
+			            style="@style/week_view_margin_cell"  />
+			        <TextView
+			            android:id="@+id/row5col2"
+			            style="@style/week_view_time_cell" />
+			        <TextView
+			            android:id="@+id/row5col3"
+			            style="@style/week_view_time_cell" />
+			        <TextView
+			            android:id="@+id/row5col4"
+			            style="@style/week_view_time_cell" />
+			        <TextView
+			            android:id="@+id/row5col5"
+			            style="@style/week_view_time_cell" />
+			        <TextView
+			            android:id="@+id/row5col6"
+			            style="@style/week_view_time_cell"/>	
+			    </TableRow>
+			    
+			    <TableRow
+			        android:id="@+id/tableRow6"
+			        android:layout_width="fill_parent"
+			        android:layout_height="50dip"
+			        android:padding="0dip" 
+			        android:background="@color/black" >
+			        <TextView
+			            android:id="@+id/row6col1"
+			            android:text="12pm"
+			            style="@style/week_view_margin_cell" />
+			        <TextView
+			            android:id="@+id/row6col2"
+			            style="@style/week_view_time_cell" />
+			        <TextView
+			            android:id="@+id/row6col3"
+			            style="@style/week_view_time_cell" />
+			        <TextView
+			            android:id="@+id/row6col4"
+			           style="@style/week_view_time_cell" />
+			        <TextView
+			            android:id="@+id/row6col5"
+			            style="@style/week_view_time_cell" />
+			        <TextView
+			            android:id="@+id/row6col6"
+			            style="@style/week_view_time_cell"/>	
+			    </TableRow>
+			    
+			    <TableRow
+			        android:id="@+id/tableRow7"
+			        android:layout_width="fill_parent"
+			        android:layout_height="50dip"
+			        android:padding="0dip" 
+			        android:background="@color/black">
+			        <TextView
+			            android:id="@+id/row7col1"
+			            android:text="1pm"
+			            style="@style/week_view_margin_cell"  />
+			        <TextView
+			            android:id="@+id/row7col2"
+			            style="@style/week_view_time_cell" />
+			        <TextView
+			            android:id="@+id/row7col3"
+			            style="@style/week_view_time_cell" />
+			        <TextView
+			            android:id="@+id/row7col4"
+			            style="@style/week_view_time_cell" />
+			        <TextView
+			            android:id="@+id/row7col5"
+			            style="@style/week_view_time_cell" />
+			        <TextView
+			            android:id="@+id/row7col6"
+			            style="@style/week_view_time_cell"/>	
+			    </TableRow>
+			    
+			    <TableRow
+			        android:id="@+id/tableRow8"
+			        android:layout_width="fill_parent"
+			        android:layout_height="50dip"
+			        android:padding="0dip" 
+			        android:background="@color/black">
+			        <TextView
+			            android:id="@+id/row8col1"
+			            android:text="2pm"
+			            style="@style/week_view_margin_cell" />
+			        <TextView
+			            android:id="@+id/row8col2"
+			            style="@style/week_view_time_cell" />
+			        <TextView
+			            android:id="@+id/row8col3"
+			            style="@style/week_view_time_cell" />
+			        <TextView
+			            android:id="@+id/row8col4"
+			            style="@style/week_view_time_cell" />
+			        <TextView
+			            android:id="@+id/row8col5"
+			            style="@style/week_view_time_cell" />
+			        <TextView
+			            android:id="@+id/row8col6"
+			            style="@style/week_view_time_cell"/>	
+			    </TableRow>
+			    
+			    <TableRow
+			        android:id="@+id/tableRow9"
+			        android:layout_width="fill_parent"
+			        android:layout_height="50dip"
+			        android:padding="0dip" 
+			        android:background="@color/black" >
+			        <TextView
+			            android:id="@+id/row9col1"
+			            android:text="3pm"
+			            style="@style/week_view_margin_cell" />
+			        <TextView
+			            android:id="@+id/row9col2"
+			            style="@style/week_view_time_cell" />
+			        <TextView
+			            android:id="@+id/row9col3"
+			            style="@style/week_view_time_cell" />
+			        <TextView
+			            android:id="@+id/row9col4"
+			            style="@style/week_view_time_cell" />
+			        <TextView
+			            android:id="@+id/row9col5"
+			            style="@style/week_view_time_cell" />
+			        <TextView
+			            android:id="@+id/row9col6"
+			            style="@style/week_view_time_cell"/>	
+			    </TableRow>
+			    
+			    <TableRow
+			        android:id="@+id/tableRow10"
+			        android:layout_width="fill_parent"
+			        android:layout_height="50dip"
+			        android:padding="0dip" 
+			        android:background="@color/black" >
+			        <TextView
+			            android:id="@+id/row10col1"
+			            android:text="4pm"
+			            style="@style/week_view_margin_cell" />
+			        <TextView
+			            android:id="@+id/row10col2"
+			            style="@style/week_view_time_cell" />
+			        <TextView
+			            android:id="@+id/row10col3"
+			            style="@style/week_view_time_cell" />
+			        <TextView
+			            android:id="@+id/row10col4"
+			            style="@style/week_view_time_cell" />
+			        <TextView
+			            android:id="@+id/row10col5"
+			            style="@style/week_view_time_cell" />
+			        <TextView
+			            android:id="@+id/row10col6"
+			            style="@style/week_view_time_cell"/>	
+			    </TableRow>
+			    <TableRow
+			        android:id="@+id/tableRow11"
+			        android:layout_width="fill_parent"
+			        android:layout_height="50dip"
+			        android:padding="0dip" 
+			        android:background="@color/black" >
+			        <TextView
+			            android:id="@+id/row11col1"
+			            android:text="5pm"
+			            style="@style/week_view_margin_cell" />
+			        <TextView
+			            android:id="@+id/row11col2"
+			            style="@style/week_view_time_cell" />
+			        <TextView
+			            android:id="@+id/row11col3"
+			            style="@style/week_view_time_cell" />
+			        <TextView
+			            android:id="@+id/row11col4"
+			            style="@style/week_view_time_cell" />
+			        <TextView
+			            android:id="@+id/row11col5"
+			            style="@style/week_view_time_cell" />
+			        <TextView
+			            android:id="@+id/row11col6"
+			            style="@style/week_view_time_cell"/>	
+			    </TableRow>
+			    <TableRow
+			        android:id="@+id/tableRow12"
+			        android:layout_width="fill_parent"
+			        android:layout_height="50dip"
+			        android:padding="0dip" 
+			        android:background="@color/black">
+			        <TextView
+			            android:id="@+id/row12col1"
+			            android:text="6pm"
+			            style="@style/week_view_margin_cell" />
+			        <TextView
+			            android:id="@+id/row12col2"
+			            style="@style/week_view_time_cell"/>
+			        <TextView
+			            android:id="@+id/row12col3"
+			            style="@style/week_view_time_cell" />
+			        <TextView
+			            android:id="@+id/row12col4"
+			            style="@style/week_view_time_cell" />
+			        <TextView
+			            android:id="@+id/row12col5"
+			            style="@style/week_view_time_cell" />
+			        <TextView
+			            android:id="@+id/row12col6"
+			            style="@style/week_view_time_cell"/>	
+			    </TableRow>
+			    <TableRow
+			        android:id="@+id/tableRow13"
+			        android:layout_width="fill_parent"
+			        android:layout_height="50dip"
+			        android:padding="0dip" 
+			        android:background="@color/black" >
+			        <TextView
+			            android:id="@+id/row13col1"
+			            android:text="7pm"
+			            style="@style/week_view_margin_cell" />
+			        <TextView
+			            android:id="@+id/row13col2"
+			            style="@style/week_view_time_cell" />
+			        <TextView
+			            android:id="@+id/row13col3"
+			            style="@style/week_view_time_cell" />
+			        <TextView
+			            android:id="@+id/row13col4"
+			            style="@style/week_view_time_cell"/>
+			        <TextView
+			            android:id="@+id/row13col5"
+			            style="@style/week_view_time_cell" />
+			        <TextView
+			            android:id="@+id/row13col6"
+			            style="@style/week_view_time_cell"/>	
+			    </TableRow>
+			</TableLayout>
+				
+		</RelativeLayout>
 	</ScrollView>
 
 </LinearLayout>

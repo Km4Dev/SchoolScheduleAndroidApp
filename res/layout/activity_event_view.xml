@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" 
+    android:id="@+id/activity_event_view"
+    android:padding="0dip">
+
+		 
+	<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	    android:id="@+id/event_view_table_layout"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:padding="10dip"
+	    android:layout_weight="0.9">
+	    <TableRow
+	        android:id="@+id/eventTableRow1"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:padding="5dip" >
+	 
+	        <TextView
+	            android:id="@+id/eventTableDateCol"
+	            android:text="Date"
+	            android:textAppearance="?android:attr/textAppearanceLarge" 
+	            style="@style/event_table_col" />
+	 
+			<TextView
+	            android:id="@+id/eventTableDate"
+	            style="@style/event_table_data" />
+			
+	    </TableRow>
+	    <TableRow
+	        android:id="@+id/eventTableRow2"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:padding="5dip" >
+	 
+	        <TextView
+	            android:id="@+id/eventTableTimeCol"
+	            android:text="Time"
+	            android:textAppearance="?android:attr/textAppearanceLarge"
+	            style="@style/event_table_col" />
+	 
+			<TextView
+	            android:id="@+id/eventTableTime"
+	            style="@style/event_table_data" />
+	    </TableRow>
+	    <TableRow
+	        android:id="@+id/eventTableRow3"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:padding="5dip" >
+	 
+	        <TextView
+	            android:id="@+id/eventTableRow3SubjectCol"
+	            android:text="Subject"
+	            android:textAppearance="?android:attr/textAppearanceLarge" 
+	            style="@style/event_table_col"/>
+	 
+			<TextView
+	            android:id="@+id/eventTableSubject"
+	            style="@style/event_table_data" />
+	    </TableRow>
+	    <TableRow
+	        android:id="@+id/eventTableRow4"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:padding="5dip" >
+	 
+	        <TextView
+	            android:id="@+id/eventTableEventCol"
+	            android:text="Event"
+	            android:textAppearance="?android:attr/textAppearanceLarge" 
+	            style="@style/event_table_col"/>
+	 
+			<TextView
+	            android:id="@+id/eventTableEvent"
+	            style="@style/event_table_data" />
+	    </TableRow>
+	    <TableRow
+	        android:id="@+id/eventTableRow5"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:padding="5dip" >
+	 
+	        <TextView
+	            android:id="@+id/eventTableLocationCol"
+	            android:text="Location"
+	            android:textAppearance="?android:attr/textAppearanceLarge" 
+	            style="@style/event_table_col"/>
+	 
+			<TextView
+	            android:id="@+id/eventTableLocation"
+	            style="@style/event_table_data" />
+	    </TableRow>
+	    <TableRow
+	        android:id="@+id/eventTableDescriptionRow"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:padding="5dip" >
+	 
+			<TextView
+	            android:id="@+id/eventTableDescription"
+	            android:layout_span="2"
+	            android:textSize="16dip" 
+	            android:paddingTop="10dip"/>
+	    </TableRow>
+	    
+	</TableLayout>
+  
+		<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		    android:layout_width="match_parent"
+		    android:layout_height="52dip"
+		    android:orientation="horizontal" 
+		    android:id="@+id/event_view_buttons"
+		    android:layout_weight="0.1"
+		    android:layout_alignParentBottom="true"
+		    android:paddingTop="4dip"
+		    android:layout_marginBottom="0dip"
+		    android:background="#4D4C4B">
+	    
+		    <Button
+				android:id="@+id/createEventView"
+				android:text="Create"
+				android:textColor="@color/black"
+				android:textAppearance="?android:attr/textAppearanceMedium"
+				android:layout_width="fill_parent"
+				android:layout_height="60dip"
+				android:layout_weight="1"
+				android:layout_alignParentBottom="true"
+				android:background="@drawable/event_button"
+				android:layout_marginRight="2dip"
+				android:layout_marginLeft="2dip">
+			</Button>	
+			
+		    <Button
+				android:id="@+id/editEventView"
+				android:text="Edit"
+				android:textColor="@color/black"
+				android:textAppearance="?android:attr/textAppearanceMedium"
+				android:layout_width="fill_parent"
+				android:layout_height="60dip"
+				android:layout_weight="1"
+				android:layout_alignParentBottom="true"
+				android:background="@drawable/event_button"
+				android:layout_marginRight="2dip"
+				android:layout_marginLeft="2dip">
+			</Button>
+			
+		    <Button
+				android:id="@+id/deleteEventView"
+				android:text="Delete"
+				android:textColor="@color/black"
+				android:textAppearance="?android:attr/textAppearanceMedium"
+				android:layout_width="fill_parent"
+				android:layout_height="60dip"
+				android:layout_weight="1"
+				android:layout_alignParentBottom="true"
+				android:background="@drawable/event_button"
+				android:layout_marginLeft="2dip"
+				android:layout_marginRight="2dip">
+			</Button>
+			
+	   </LinearLayout> 
+
+		
+</LinearLayout>

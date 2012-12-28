@@ -11,7 +11,6 @@ public class EventTable {
 	  public static final String COLUMN_YEAR = "year";
 	  public static final String COLUMN_MONTH = "month";
 	  public static final String COLUMN_DATE = "date";
-	  public static final String COLUMN_WEEKDAY = "weekday";
 	  public static final String COLUMN_STARTTIME = "starttime";//24 hour time format
 	  public static final String COLUMN_DURATION = "duration"; //in 15 minute increments
 	  public static final String COLUMN_LOCATION = "location";
@@ -20,18 +19,17 @@ public class EventTable {
 	  public static final String COLUMN_DESCRIPTION = "description"; //description of event 
 
 	  // Database creation SQL statement
-	  private static final String DATABASE_CREATE = "create table " + TABLE_EVENTS + "(" 
-		  + COLUMN_ID + " integer primary key autoincrement, " 
-		  + COLUMN_YEAR + " integer "
-		  + COLUMN_MONTH + " integer " 
-		  + COLUMN_DATE + " integer "
-		  + COLUMN_WEEKDAY + " integer "
-		  + COLUMN_STARTTIME + " text "
-		  + COLUMN_DURATION + " integer "
-		  + COLUMN_LOCATION + " text "
-		  + COLUMN_SUBJECT + " text "
-		  + COLUMN_EVENTTYPE + " text "
-		  + COLUMN_DESCRIPTION + " text );";
+	  private static final String DATABASE_CREATE = "CREATE TABLE " + TABLE_EVENTS + "(" 
+		  + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " 
+		  + COLUMN_YEAR + " INTEGER,"
+		  + COLUMN_MONTH + " INTEGER," 
+		  + COLUMN_DATE + " INTEGER,"
+		  + COLUMN_STARTTIME + " TEXT,"
+		  + COLUMN_DURATION + " INTEGER,"
+		  + COLUMN_LOCATION + " TEXT,"
+		  + COLUMN_SUBJECT + " TEXT,"
+		  + COLUMN_EVENTTYPE + " TEXT,"
+		  + COLUMN_DESCRIPTION + " TEXT);";
 
 	  //Call that DB-creation SQL statement upon creation of EventTable object 
 	public static void onCreate(SQLiteDatabase database) {

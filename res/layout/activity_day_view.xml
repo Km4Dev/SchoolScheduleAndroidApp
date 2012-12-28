@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	android:background="@color/black"
+	android:id="@+id/activity_day_view">
+
+	<LinearLayout
+		xmlns:android="http://schemas.android.com/apk/res/android"
+		android:orientation="horizontal"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content">
+
+		<ImageView
+			android:id="@+id/prevDay"
+			android:src="@drawable/calendar_left_arrow_selector"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content">
+		</ImageView>
+		<Button
+			android:id="@+id/currentDay"
+			android:layout_weight="0.6"
+			android:textColor="#FFFFFF"
+			android:textAppearance="?android:attr/textAppearanceMedium"
+			android:background="@color/black"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content">
+		</Button>
+		<ImageView
+			android:id="@+id/nextDay"
+			android:src="@drawable/calendar_right_arrow_selector"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content">
+		</ImageView>
+	</LinearLayout>
+
+	<LinearLayout
+		xmlns:android="http://schemas.android.com/apk/res/android"
+		android:orientation="horizontal"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		>
+		    
+		<GridView
+			android:numColumns="1"
+			android:layout_height="fill_parent"
+            android:layout_width="22.5dip"
+            android:background="@color/black">
+		</GridView>
+	    
+
+		<GridView
+		    android:id="@+id/dayHeader"
+		    android:layout_width="fill_parent"
+		    android:layout_height="wrap_content"
+		    android:layout_marginLeft="-5dip"
+		    android:layout_marginBottom="-5dip"
+		    android:layout_marginRight="-6dip"
+		    android:background="@color/black"
+		    android:horizontalSpacing="1dip"
+		    android:numColumns="5"
+		    android:textAppearance="?android:attr/textAppearanceMedium" >
+
+		</GridView>
+	</LinearLayout>
+		
+	<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+	    android:layout_width="fill_parent"
+	    android:layout_height="fill_parent"
+	    >
+			
+	    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		    android:id="@+id/day_event_frame"
+		    android:layout_width="fill_parent"
+		    android:layout_height="wrap_content" >    
+		    
+			<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+			    android:id="@+id/tableLayout1"
+			    android:layout_width="fill_parent"
+			    android:layout_height="wrap_content" >
+			 
+			    <!-- 2 columns -->
+			    <TableRow
+			        android:id="@+id/tableRow1"
+			        style="@style/day_view_time_row">
+			        <TextView
+			            android:id="@+id/row1col1"
+			            android:text="7am"
+			            style="@style/day_view_margin_cell" />
+			        <TextView
+			            android:id="@+id/row1col2"
+			            style="@style/day_view_time_cell"
+			            />	     
+			    </TableRow>
+	
+			    <TableRow
+			        android:id="@+id/tableRow2"
+			        style="@style/day_view_time_row"
+			        >
+			        <TextView
+			            android:id="@+id/row2col1"
+			            android:text="8am" 
+			            style="@style/day_view_margin_cell"/>
+			        <TextView
+			            android:id="@+id/row2col2"
+			            style="@style/day_view_time_cell" />
+			    </TableRow>
+			 
+			    <TableRow
+			        android:id="@+id/tableRow2"
+			        style="@style/day_view_time_row"
+			        >
+			        <TextView
+			            android:id="@+id/row3col1"
+			            android:text="9am"
+			            style="@style/day_view_margin_cell"/>
+			        <TextView
+			            android:id="@+id/row3col2"
+			            style="@style/day_view_time_cell" />
+			    </TableRow>
+	
+			    <TableRow
+			        android:id="@+id/tableRow2"
+			        style="@style/day_view_time_row"
+			        >
+			        <TextView
+			            android:id="@+id/row4col1"
+			            android:text="10am"
+			            style="@style/day_view_margin_cell"  />
+			        <TextView
+			            android:id="@+id/row4col2"
+			            style="@style/day_view_time_cell" />
+			    </TableRow>
+			 
+			    <TableRow
+			        android:id="@+id/tableRow2"
+			        style="@style/day_view_time_row"
+			        >
+			        <TextView
+			            android:id="@+id/row5col1"
+			            android:text="11am"
+			            style="@style/day_view_margin_cell"  />
+			        <TextView
+			            android:id="@+id/row5col2"
+			            style="@style/day_view_time_cell" />
+			    </TableRow>
+			    
+			    <TableRow
+			        android:id="@+id/tableRow2"
+			        style="@style/day_view_time_row"
+			        >
+			        <TextView
+			            android:id="@+id/row6col1"
+			            android:text="12pm"
+			            style="@style/day_view_margin_cell" />
+			        <TextView
+			            android:id="@+id/row6col2"
+			            style="@style/day_view_time_cell" />
+			    </TableRow>
+			    
+			    <TableRow
+			        android:id="@+id/tableRow2"
+			        style="@style/day_view_time_row"
+			        >
+			        <TextView
+			            android:id="@+id/row7col1"
+			            android:text="1pm"
+			            style="@style/day_view_margin_cell"  />
+			        <TextView
+			            android:id="@+id/row7col2"
+			            style="@style/day_view_time_cell" />
+			    </TableRow>
+			    
+			    <TableRow
+			        android:id="@+id/tableRow2"
+			        style="@style/day_view_time_row"
+			        >
+			        <TextView
+			            android:id="@+id/row8col1"
+			            android:text="2pm"
+			            style="@style/day_view_margin_cell" />
+			        <TextView
+			            android:id="@+id/row8col2"
+			            style="@style/day_view_time_cell" />
+			    </TableRow>
+			    
+			    <TableRow
+			        android:id="@+id/tableRow2"
+			        style="@style/day_view_time_row"
+			        >
+			        <TextView
+			            android:id="@+id/row9col1"
+			            android:text="3pm"
+			            style="@style/day_view_margin_cell" />
+			        <TextView
+			            android:id="@+id/row9col2"
+			            style="@style/day_view_time_cell" />	
+			    </TableRow>
+			    
+			    <TableRow
+			        android:id="@+id/tableRow2"
+			        style="@style/day_view_time_row"
+			        >
+			        <TextView
+			            android:id="@+id/row10col1"
+			            android:text="4pm"
+			            style="@style/day_view_margin_cell" />
+			        <TextView
+			            android:id="@+id/row10col2"
+			            style="@style/day_view_time_cell" />
+			    </TableRow>
+			    <TableRow
+			        android:id="@+id/tableRow2"
+			        style="@style/day_view_time_row"
+			        >
+			        <TextView
+			            android:id="@+id/row11col1"
+			            android:text="5pm"
+			            style="@style/day_view_margin_cell" />
+			        <TextView
+			            android:id="@+id/row11col2"
+			            style="@style/day_view_time_cell" />	
+			    </TableRow>
+			    <TableRow
+			        android:id="@+id/tableRow2"
+			        style="@style/day_view_time_row"
+			        >
+			        <TextView
+			            android:id="@+id/row12col1"
+			            android:text="6pm"
+			            style="@style/day_view_margin_cell" />
+			        <TextView
+			            android:id="@+id/row12col2"
+			            style="@style/day_view_time_cell"/>
+			    </TableRow>
+			    <TableRow
+			        android:id="@+id/tableRow2"
+			        style="@style/day_view_time_row"
+			        >
+			        <TextView
+			            android:id="@+id/row13col1"
+			            android:text="7pm"
+			            style="@style/day_view_margin_cell" />
+			        <TextView
+			            android:id="@+id/row13col2"
+			            style="@style/day_view_time_cell" />
+			    </TableRow>
+			</TableLayout>
+				
+		</RelativeLayout>
+	</ScrollView>
+
+</LinearLayout>

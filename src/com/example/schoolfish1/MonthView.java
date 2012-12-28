@@ -48,6 +48,7 @@ public class MonthView extends Activity implements OnClickListener
 	private GridView weekdayHeaderView; 
 	private int numWeeks; //number of weeks in this month -- number of week tabs needed
 	private String[] weeks; //array of each week's tab 
+	private ArrayList<Integer> firstDaysOfWeeks = new ArrayList<Integer>(6);  
 
 	/** Called when the activity is first created. */
 	@Override
@@ -181,45 +182,21 @@ public class MonthView extends Activity implements OnClickListener
 
 		@Override
 		public void onClick(View v) {
-			int weekNum = (Integer) v.getTag() + 1;
+			int weekNum = (Integer) v.getTag();
+			int firstDayOfWeek = firstDaysOfWeeks.get(weekNum);
 			
 			Bundle b = new Bundle(); //create new bundle to pass info via intent into new activity
 		    b.putInt("year", year); //store year in bundle
 		    b.putInt("month", month); //store month in bundle
+		    b.putInt("firstDayOfWeek", firstDayOfWeek); 
 
 		    Intent newActivity = new Intent("WeekView");  //create new intent to start WeekView Activity   
 		    
 			Log.d(tag, "Parsed Week Number: " + weekNum);
 			Log.d(tag, "This Year: " + year); 
 			Log.d(tag, "This Month: " + month); 
+			Log.d(tag, "First Date of week: " + firstDayOfWeek); 
 			//if user clicks on week tab, start new activity of that week's calendar 
-				
-				switch(weekNum){
-				    case 1:    
-						    b.putInt("week", 0); //pass week number
-			        		break;
-			        		
-				    case 2: 
-						    b.putInt("week", 1); //pass week number
-			        		break;
-			        		
-				    case 3:   
-						    b.putInt("week", 2); //pass week number
-			        		break;
-			        		
-				    case 4:   
-						    b.putInt("week", 3); //pass week number
-			        		break;
-			        		
-				    case 5:   
-						    b.putInt("week", 4); //pass week number
-			        		break;
-			       
-				    case 6: 
-						    b.putInt("week", 5); //pass week number
-			        		break;
-
-				}//end switch
 				
 				//put bundle in Intent and start new activity with intent 
 			    newActivity.putExtras(b); //Put your id to your next Intent
@@ -288,6 +265,39 @@ public class MonthView extends Activity implements OnClickListener
 				{
 					return months[i];
 				}
+			
+			private int getMonthAsInt(String s){
+				int month = 0; 
+				
+				if(s.equals("January")){
+					month = 0; 
+				}else if(s.equals("February")){
+					month = 1; 
+				}else if(s.equals("March")){
+					month = 2; 
+				}else if(s.equals("April")){
+					month = 3; 
+				}else if(s.equals("May")){
+					month = 4;
+				}else if(s.equals("June")){
+					month = 5; 
+				}else if(s.equals("July")){
+					month = 6; 
+				}else if(s.equals("August")){
+					month = 7; 
+				}else if(s.equals("September")){
+					month = 8; 
+				}else if(s.equals("October")){
+					month = 9; 
+				}else if(s.equals("November")){
+					month = 10; 
+				}else if(s.equals("December")){
+					month = 11; 
+				}
+				
+				return month; 
+				
+			}
 
 			private String getWeekDayAsString(int i)
 				{
@@ -395,6 +405,9 @@ public class MonthView extends Activity implements OnClickListener
 						{
 							Log.d(tag, "PREV MONTH:= " + prevMonth + " => " + getMonthAsString(prevMonth) + " " + String.valueOf((daysInPrevMonth - trailingSpaces + DAY_OFFSET) + i));
 							list.add(String.valueOf((daysInPrevMonth - trailingSpaces + DAY_OFFSET) + i) + "-GREY" + "-" + getMonthAsString(prevMonth) + "-" + prevYear);
+							if(i == 0){
+								firstDaysOfWeeks.add((daysInPrevMonth - trailingSpaces + DAY_OFFSET) + i); //if the first day of the month is NOT Monday, the first week will start with the previous month 
+							}
 						}
 					
 					int thisWeekDay = currentWeekDay; 
@@ -402,16 +415,21 @@ public class MonthView extends Activity implements OnClickListener
 					for (int i = 1; i <= daysInMonth; i++)
 						{
 						//if that day is not a Saturday or Sunday, then add to printed list 
-						if((((thisWeekDay) % 7) != 0) && ((((thisWeekDay) + 1) % 7) != 0)){
-							Log.d(currentMonthName, String.valueOf(i) + " " + getMonthAsString(currentMonth) + " " + yy);
-							if (i == currentDayOfMonth && currentMonth == actualCurrentMonth && currentYear == actualCurrentYear)
-								{
-									list.add(String.valueOf(i) + "-ORANGE" + "-" + getMonthAsString(currentMonth) + "-" + yy);
-								}
-							else
-								{
-									list.add(String.valueOf(i) + "-BLACK" + "-" + getMonthAsString(currentMonth) + "-" + yy);
-								}
+							if((((thisWeekDay) % 7) != 0) && ((((thisWeekDay) + 1) % 7) != 0)){
+								Log.d(currentMonthName, String.valueOf(i) + " " + getMonthAsString(currentMonth) + " " + yy);
+								if (i == currentDayOfMonth && currentMonth == actualCurrentMonth && currentYear == actualCurrentYear)
+									{
+										list.add(String.valueOf(i) + "-ORANGE" + "-" + getMonthAsString(currentMonth) + "-" + yy);
+									}
+								else
+									{
+										list.add(String.valueOf(i) + "-BLACK" + "-" + getMonthAsString(currentMonth) + "-" + yy);
+									}
+							if((thisWeekDay % 7) == 1){
+								//if date is Monday, add to firstDaysOfWeek array
+								 firstDaysOfWeeks.add(i); 
+								 Log.d(tag, "Adding " + i + " to firstDaysOfWeeks"); 
+							}
 						}
 						thisWeekDay++; 
 						}//end for
@@ -518,6 +536,16 @@ public class MonthView extends Activity implements OnClickListener
 			public void onClick(View view)
 				{
 					String date_month_year = (String) view.getTag();
+					
+					String[] dateArray = date_month_year.split("-");
+					
+					Bundle b = new Bundle(); //create new bundle to pass info via intent into new activity
+		        	b.putInt("date", Integer.parseInt(dateArray[0])); 
+		        	b.putInt("month", getMonthAsInt(dateArray[1])); 
+		        	b.putInt("year", Integer.parseInt(dateArray[2])); 
+					Intent i = new Intent("DayView");
+					i.putExtras(b); 
+		            startActivity(i); 
 
 					try
 						{

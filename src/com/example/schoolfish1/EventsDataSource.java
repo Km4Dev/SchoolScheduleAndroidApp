@@ -17,14 +17,15 @@ public class EventsDataSource{
 	  private SQLiteDatabase database;
 	  private MySQLiteHelper dbHelper; //creates the database for us 
 	  private String[] allColumns = { MySQLiteHelper.COLUMN_ID, MySQLiteHelper.COLUMN_YEAR, 
-			  MySQLiteHelper.COLUMN_MONTH, MySQLiteHelper.COLUMN_DATE, MySQLiteHelper.COLUMN_WEEKDAY, 
-			  MySQLiteHelper.COLUMN_STARTTIME, MySQLiteHelper.COLUMN_DURATION, MySQLiteHelper.COLUMN_LOCATION, 
+			  MySQLiteHelper.COLUMN_MONTH, MySQLiteHelper.COLUMN_DATE, 
+			  MySQLiteHelper.COLUMN_STARTTIME, MySQLiteHelper.COLUMN_DURATION, 
 			  MySQLiteHelper.COLUMN_LOCATION, MySQLiteHelper.COLUMN_SUBJECT, MySQLiteHelper.COLUMN_EVENTTYPE, 
-			  MySQLiteHelper.COLUMN_DESCRIPTION}; //array of all columns' names
+			  MySQLiteHelper.COLUMN_DESCRIPTION }; //array of all columns' names
 
 	  //creates new database instance (of existing Events database) for us to read/write to 
 	  public EventsDataSource(Context context) {
 	    dbHelper = new MySQLiteHelper(context);
+
 	  }
 
 	  //gets writable database
@@ -41,23 +42,19 @@ public class EventsDataSource{
 		//ContentValues object holds key-value pairs, mapping the column name ("event") to each individually inserted event object
 	    ContentValues values = new ContentValues();
 	    
-	    int id = event.getId(); 
 	    int year = event.getYear(); 
 	    int month = event.getMonth(); 
 	    int date = event.getDate();
-	    String weekday = event.getWeekday(); 
-	    int startTime = event.getStartTime(); 
+	    String startTime = event.getStartTime(); 
 	    int duration = event.getDuration(); 
 	    String location = event.getLocation(); 
 	    String subject = event.getSubject();
 	    String eventType = event.getEventType(); 
 	    String description = event.getDescription(); 
 	    
-	    values.put(MySQLiteHelper.COLUMN_ID, id);
 	    values.put(MySQLiteHelper.COLUMN_YEAR, year);
 	    values.put(MySQLiteHelper.COLUMN_MONTH, month);
 	    values.put(MySQLiteHelper.COLUMN_DATE, date);
-	    values.put(MySQLiteHelper.COLUMN_WEEKDAY, weekday);
 	    values.put(MySQLiteHelper.COLUMN_STARTTIME, startTime);
 	    values.put(MySQLiteHelper.COLUMN_DURATION, duration);
 	    values.put(MySQLiteHelper.COLUMN_LOCATION, location);
@@ -66,7 +63,7 @@ public class EventsDataSource{
 	    values.put(MySQLiteHelper.COLUMN_DESCRIPTION, description);
 	    
 	    //open database
-	    open();
+	    //open();
 	    
 	    //then, insert that new ContentValues object into the database itself  and return unique ID from id column for that new row
 	    long insertId = database.insert(MySQLiteHelper.TABLE_EVENTS, null, values);
@@ -77,15 +74,13 @@ public class EventsDataSource{
 	   	Event newEvent = cursorToEvent(cursor);
 	    cursor.close();
 	    
-	    close(); //close database 
+	    //close(); //close database 
 	    return newEvent;
 	  }
 	  
-	  public void updateEvent(Event event){
-		  long id = event.getId(); 
+	  public void updateEvent(int id, ContentValues cv){
 		  System.out.println("Event being updated with id: " + id); 
-
-		  //database.update(MySQLiteHelper.TABLE_EVENTS, MySQLiteHelper.COLUMN_ID + " = " + id, null); 
+		  database.update(MySQLiteHelper.TABLE_EVENTS, cv, MySQLiteHelper.COLUMN_ID + " = " + id, null); 
 	  }
 
 	  //use event object's ID field to query that ID's row in Event table, and delete it 
@@ -95,13 +90,19 @@ public class EventsDataSource{
 	    database.delete(MySQLiteHelper.TABLE_EVENTS, MySQLiteHelper.COLUMN_ID
 	        + " = " + id, null);
 	  }
+	  
+	  public void deleteEvent(int id) {
+		    System.out.println("Event deleted with id: " + id);
+		    database.delete(MySQLiteHelper.TABLE_EVENTS, MySQLiteHelper.COLUMN_ID
+		        + " = " + id, null);
+		  }
 
 	  //returns List object of all events stored in events table (returns allColumns - i.e. both ID and event objects)
 	  public List<Event> getAllEvents() {
 	    List<Event> events = new ArrayList<Event>();
 
 	    Cursor cursor = database.query(MySQLiteHelper.TABLE_EVENTS, allColumns, null, null, null, null, null);
-
+	    
 	    //use cursor to iterate through all table rows 
 	    cursor.moveToFirst();
 	    while (!cursor.isAfterLast()) {
@@ -118,6 +119,15 @@ public class EventsDataSource{
 	  private Event cursorToEvent(Cursor cursor) {
 	    Event event = new Event();
 	    event.setId(cursor.getInt(0));
+	    event.setYear(cursor.getInt(1));
+	    event.setMonth(cursor.getInt(2));
+	    event.setDate(cursor.getInt(3));
+	    event.setStartTime(cursor.getString(4));
+	    event.setDuration(cursor.getInt(5));
+	    event.setLocation(cursor.getString(6));
+	    event.setSubject(cursor.getString(7));
+	    event.setEventType(cursor.getString(8));
+	    event.setDescription(cursor.getString(9));
 	    return event;
 	  }
 	  

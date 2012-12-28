@@ -96,5 +96,60 @@
 		</GridView>
 		
 	</LinearLayout>
+	
+	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		    android:layout_width="match_parent"
+		    android:layout_height="52dip"
+		    android:orientation="horizontal" 
+		    android:id="@+id/month_view_buttons"
+		    android:layout_weight="0.1"
+		    android:layout_alignParentBottom="true"
+		    android:paddingTop="4dip"
+		    android:layout_marginBottom="0dip"
+		    android:background="#4D4C4B">
+	    
+		    <Button
+				android:id="@+id/go_to_classes_view"
+				android:text="Classes"
+				android:textColor="@color/black"
+				android:textAppearance="?android:attr/textAppearanceMedium"
+				android:layout_width="fill_parent"
+				android:layout_height="60dip"
+				android:layout_weight="1"
+				android:layout_alignParentBottom="true"
+				android:background="@drawable/event_button"
+				android:layout_marginRight="2dip"
+				android:layout_marginLeft="2dip">
+			</Button>	
+			
+		    <Button
+				android:id="@+id/go_to_events_view"
+				android:text="Events"
+				android:textColor="@color/black"
+				android:textAppearance="?android:attr/textAppearanceMedium"
+				android:layout_width="fill_parent"
+				android:layout_height="60dip"
+				android:layout_weight="1"
+				android:layout_alignParentBottom="true"
+				android:background="@drawable/event_button"
+				android:layout_marginRight="2dip"
+				android:layout_marginLeft="2dip">
+			</Button>
+			
+		    <Button
+				android:id="@+id/go_to_homework_view"
+				android:text="Homework"
+				android:textColor="@color/black"
+				android:textAppearance="?android:attr/textAppearanceMedium"
+				android:layout_width="fill_parent"
+				android:layout_height="60dip"
+				android:layout_weight="1"
+				android:layout_alignParentBottom="true"
+				android:background="@drawable/event_button"
+				android:layout_marginLeft="2dip"
+				android:layout_marginRight="2dip">
+			</Button>
+			
+	   </LinearLayout>
 
 </LinearLayout>

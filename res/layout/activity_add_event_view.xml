@@ -1,0 +1,160 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+	    android:layout_width="fill_parent"
+	    android:layout_height="fill_parent"
+	    android:id="@+id/week_scroll_view">
+	    
+	<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+				    android:id="@+id/weekTableLayout"
+				    android:layout_width="fill_parent"
+				    android:layout_height="wrap_content"
+				    android:background="@color/black" 
+				    android:padding="5dip">
+				 
+		    <!-- 2 columns -->
+	
+		        <TableRow
+		        android:id="@+id/add_event_time_row"
+		        android:layout_width="fill_parent"
+		        android:layout_height="50dip"
+		        android:padding="0dip" 
+		        android:background="@color/black">
+		        <TextView
+		            android:id="@+id/add_event_time_label"
+		            android:text="Time:"
+		            style="@style/add_event_col" />
+		        <TimePicker
+			        android:id="@+id/addEventTimePicker"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        android:scaleX="0.8"
+					android:scaleY="0.8" />
+		    </TableRow>
+		    <TableRow
+		        android:id="@+id/add_event_date_row"
+		        android:layout_width="fill_parent"
+		        android:layout_height="50dip"
+		        android:padding="0dip" 
+		        android:background="@color/black">
+		        <TextView
+		            android:id="@+id/add_event_date_label"
+		            android:text="Date: "
+		            style="@style/add_event_col" />
+				<DatePicker
+			        android:id="@+id/addEventDatePicker"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content" 
+			        android:scaleX="0.8"
+					android:scaleY="0.8"/>
+		    </TableRow>
+		    <TableRow
+		        android:id="@+id/add_event_duration_row"
+		        android:layout_width="fill_parent"
+		        android:layout_height="50dip"
+		        android:padding="0dip" 
+		        android:background="@color/black">
+		        <TextView
+		            android:id="@+id/add_event_duration_label"
+		            android:text="Duration:"
+		            style="@style/add_event_col" />
+		        <EditText
+		             android:id="@+id/add_event_duration_edit"
+					 android:layout_width="match_parent"
+					 android:layout_height="wrap_content" 
+					 android:ems="8"/>    
+		    </TableRow>
+		    <TableRow
+		        android:id="@+id/add_event_subject_row"
+		        android:layout_width="fill_parent"
+		        android:layout_height="50dip"
+		        android:padding="0dip" 
+		        android:background="@color/black">
+		        <TextView
+		            android:id="@+id/add_event_subject_label"
+		            android:text="Subject:"
+		            style="@style/add_event_col" />
+		        <EditText
+		             android:id="@+id/add_event_subject_edit"
+					 android:layout_width="match_parent"
+					 android:layout_height="wrap_content" />    
+		    </TableRow>
+		    <TableRow
+		        android:id="@+id/add_event_type_row"
+		        android:layout_width="fill_parent"
+		        android:layout_height="50dip"
+		        android:padding="0dip" 
+		        android:background="@color/black">
+		        <TextView
+		            android:id="@+id/add_event_type_label"
+		            android:text="Event: "
+		            style="@style/add_event_col" />
+		        <EditText
+		             android:id="@+id/add_event_type_edit"
+					 android:layout_width="match_parent"
+					 android:layout_height="wrap_content" />    
+		    </TableRow>
+		    <TableRow
+		        android:id="@+id/add_event_location_row"
+		        android:layout_width="fill_parent"
+		        android:layout_height="50dip"
+		        android:padding="0dip" 
+		        android:background="@color/black">
+		        <TextView
+		            android:id="@+id/add_event_location_label"
+		            android:text="Location: "
+		            style="@style/add_event_col" />
+		        <EditText
+		             android:id="@+id/add_event_location_edit"
+					 android:layout_width="match_parent"
+					 android:layout_height="wrap_content" />    
+		    </TableRow>
+		    <TableRow
+		        android:id="@+id/add_event_description_row"
+		        android:layout_width="fill_parent"
+		        android:layout_height="50dip"
+		        android:padding="0dip" 
+		        android:background="@color/black">
+		        <TextView
+		            android:id="@+id/add_event_description_label"
+		            android:text="Description: "
+		            style="@style/add_event_col"/>
+		        <EditText
+		             android:id="@+id/add_event_description_edit"
+					 android:layout_width="match_parent"
+					 android:layout_height="wrap_content" />    
+		    </TableRow>
+	
+		    <Button
+		        android:id="@+id/saveAddEventButton"
+		        android:text="Save"
+		        android:textColor="@color/black"
+				android:textAppearance="?android:attr/textAppearanceMedium"
+				android:layout_width="fill_parent"
+				android:layout_height="60dip"
+				android:layout_weight="1"
+				android:layout_alignParentBottom="true"
+				android:background="@drawable/event_button"
+				android:layout_marginLeft="2dip"
+				android:layout_marginRight="2dip">
+		    </Button>
+		    
+		    
+		    <Button
+		        android:id="@+id/cancelAddEventButton"
+		        android:text="Cancel"
+		        android:textColor="@color/black"
+				android:textAppearance="?android:attr/textAppearanceMedium"
+				android:layout_width="fill_parent"
+				android:layout_height="60dip"
+				android:layout_weight="1"
+				android:layout_alignParentBottom="true"
+				android:background="@drawable/event_button"
+				android:layout_marginLeft="2dip"
+				android:layout_marginRight="2dip">
+		    </Button>
+		    
+		    //date dialog
+		    //time dialog
+		    //dropdown menu to choose subject from enum
+		    
+	</TableLayout>
+</ScrollView>

@@ -1,7 +1,10 @@
 
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+<Button xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/week_header_cell"
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content" 
+    android:layout_height="20dip" 
     android:gravity="center_horizontal"
-	android:background="@color/grey"/>
+    android:textSize="12dip"
+    android:textColor="@color/black"
+	android:background="@color/orange">
+</Button>
